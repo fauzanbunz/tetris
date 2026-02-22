@@ -2,678 +2,560 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neon Tetris Cyberpunk</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efek Matrix Wajah Ungu</title>
     <style>
-        :root {
-            --bg-color: #050510;
-            --grid-line: rgba(0, 255, 255, 0.1);
-            --neon-blue: #00f3ff;
-            --neon-pink: #ff00ff;
-            --neon-green: #00ff41;
-            --neon-yellow: #ffee00;
-            --text-color: #e0e0e0;
-        }
-
-        * {
-            box-sizing: border-box;
-            touch-action: none; /* Mencegah zoom pada mobile */
-        }
-
-        body {
+        body, html {
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Orbitron', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-
-        /* CRT Scanline Effect */
-        body::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        #game-container {
-            position: relative;
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-            border: 2px solid var(--neon-blue);
-            box-shadow: 0 0 20px var(--neon-blue), inset 0 0 20px var(--neon-blue);
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            z-index: 2;
-        }
-
-        canvas {
-            background-color: #000;
-            border: 1px solid var(--grid-line);
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
-            display: block;
-        }
-
-        #sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            min-width: 120px;
-        }
-
-        .hud-panel {
-            border: 1px solid var(--neon-pink);
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 0 10px var(--neon-pink);
-            background: rgba(20, 0, 20, 0.6);
-        }
-
-        .hud-title {
-            font-size: 0.8rem;
-            color: var(--neon-blue);
-            margin-bottom: 5px;
-            text-shadow: 0 0 5px var(--neon-blue);
-        }
-
-        .hud-value {
-            font-size: 1.5rem;
-            color: #fff;
-            text-shadow: 0 0 8px #fff;
-        }
-
-        h1 {
-            margin: 0 0 20px 0;
-            color: var(--neon-yellow);
-            text-shadow: 2px 2px 0px var(--neon-pink), 0 0 20px var(--neon-yellow);
-            font-size: 2.5rem;
-            letter-spacing: 2px;
-            animation: glitch 3s infinite;
-        }
-
-        @keyframes glitch {
-            0% { transform: skew(0deg); }
-            2% { transform: skew(2deg); }
-            4% { transform: skew(-2deg); }
-            6% { transform: skew(0deg); }
-            100% { transform: skew(0deg); }
-        }
-
-        #controls-mobile {
-            display: none;
-            margin-top: 20px;
-            width: 100%;
-            max-width: 340px;
-            z-index: 5;
-        }
-
-        .control-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .btn {
-            background: rgba(0, 243, 255, 0.1);
-            border: 2px solid var(--neon-blue);
-            color: var(--neon-blue);
-            font-family: 'Orbitron', sans-serif;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            text-shadow: 0 0 5px var(--neon-blue);
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
-            transition: all 0.1s;
-            user-select: none;
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn:active {
-            background: var(--neon-blue);
-            color: #000;
-            box-shadow: 0 0 20px var(--neon-blue);
-        }
-
-        .btn-large {
-            width: 100%;
-            height: 50px;
-            margin-top: 10px;
-            background: rgba(0, 255, 65, 0.1);
-            border-color: var(--neon-green);
-            color: var(--neon-green);
-        }
-        
-        .btn-large:hover {
-            background: rgba(0, 255, 65, 0.3);
-        }
-
-        #overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background-color: #05000a; /* Warna latar belakang sangat gelap */
+            overflow: hidden;
+            font-family: monospace;
+        }
+        canvas {
+            display: block;
+        }
+        
+        /* Tombol Mic di atas kanan kepala */
+        #micBtn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(5, 0, 10, 0.7);
+            border: 2px solid #b450ff;
+            color: #b450ff;
+            border-radius: 50%;
+            width: 50px; 
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 0 10px #b450ff;
+            transition: all 0.3s;
+            z-index: 10;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            z-index: 20;
-            display: none; /* Hidden by default */
+            justify-content: center;
+            outline: none;
         }
-
-        #overlay-text {
-            font-size: 3rem;
-            color: var(--neon-pink);
-            text-shadow: 0 0 20px var(--neon-pink);
-            margin-bottom: 20px;
-            text-align: center;
+        #micBtn:hover {
+            transform: scale(1.1);
+            background: rgba(180, 80, 255, 0.2);
         }
-
-        /* Mobile Responsive */
-        @media (max-width: 600px) {
-            #game-container {
-                flex-direction: column;
-                padding: 10px;
-                margin-top: -20px;
-            }
-            
-            #sidebar {
-                flex-direction: row;
-                justify-content: space-between;
-                min-width: auto;
-                width: 240px; /* Lebar canvas */
-            }
-
-            .hud-panel {
-                flex: 1;
-                margin: 0 2px;
-                padding: 5px;
-            }
-
-            .hud-value {
-                font-size: 1rem;
-            }
-            
-            #controls-mobile {
-                display: block;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-                margin-bottom: 10px;
-            }
+        #micBtn.listening {
+            background: #b450ff;
+            box-shadow: 0 0 20px #f3e8ff;
+            animation: pulse 1s infinite;
+        }
+        #micBtn.thinking {
+            border-color: #f3e8ff;
+            background: rgba(180, 80, 255, 0.4);
+            animation: pulse 1.5s infinite;
+        }
+        #micBtn.speaking {
+            background: rgba(180, 80, 255, 0.8);
+            box-shadow: 0 0 20px #b450ff, inset 0 0 15px #f3e8ff;
+            animation: pulse 0.8s infinite;
+        }
+        @keyframes pulse { 
+            0% { transform: scale(1); } 
+            50% { transform: scale(1.15); } 
+            100% { transform: scale(1); } 
         }
     </style>
 </head>
 <body>
-
-    <h1>CYBER TETRIS</h1>
-
-    <div id="game-container">
-        <canvas id="tetris" width="240" height="400"></canvas>
-        
-        <div id="sidebar">
-            <div class="hud-panel">
-                <div class="hud-title">SKOR</div>
-                <div class="hud-value" id="score">0</div>
-            </div>
-            <div class="hud-panel">
-                <div class="hud-title">LEVEL</div>
-                <div class="hud-value" id="level">1</div>
-            </div>
-            <div class="hud-panel">
-                <div class="hud-title">BERIKUTNYA</div>
-                <canvas id="next-piece" width="80" height="80" style="width: 100%; border: none; box-shadow: none; background: transparent;"></canvas>
-            </div>
-            
-            <button id="start-btn" class="btn btn-large">MULAI</button>
-            <button id="pause-btn" class="btn btn-large" style="display:none; border-color: var(--neon-yellow); color: var(--neon-yellow);">PAUSE</button>
-        </div>
-
-        <div id="overlay">
-            <div id="overlay-text">GAME OVER</div>
-            <button class="btn btn-large" style="width: 150px;" onclick="resetGame()">RESTART</button>
-        </div>
-    </div>
-
-    <!-- Mobile Controls -->
-    <div id="controls-mobile">
-        <div class="control-row">
-            <div class="btn" id="btn-rotate">↻</div>
-            <div class="btn" id="btn-up">↑</div> <!-- Hard drop alternative or rotate -->
-        </div>
-        <div class="control-row">
-            <div class="btn" id="btn-left">←</div>
-            <div class="btn" id="btn-down">↓</div>
-            <div class="btn" id="btn-right">→</div>
-        </div>
-    </div>
+    <canvas id="matrixCanvas"></canvas>
+    <button id="micBtn" onclick="handleMicClick()" title="Mulai bicara dengan Kimi"></button>
 
     <script>
-        const canvas = document.getElementById('tetris');
-        const ctx = canvas.getContext('2d');
-        const nextCanvas = document.getElementById('next-piece');
-        const nextCtx = nextCanvas.getContext('2d');
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+
+        let width, height;
+        const fontSize = 8; // Tetap 8px agar resolusi wajah tajam
+        let cols, rows;
+        let cells = [];
+        let drops = [];
+        let maskDataIdle, maskDataBlink, maskDataTalk;
+
+        let imagesLoadedCount = 0;
         
-        const startBtn = document.getElementById('start-btn');
-        const pauseBtn = document.getElementById('pause-btn');
-        const scoreElement = document.getElementById('score');
-        const levelElement = document.getElementById('level');
-        const overlay = document.getElementById('overlay');
-        const overlayText = document.getElementById('overlay-text');
+        // Link gambar dari repositori Anda untuk 3 state yang berbeda
+        const urlIdle = "https://raw.githubusercontent.com/fauzanbunz/ai/main/face.png";
+        const urlBlink = "https://raw.githubusercontent.com/fauzanbunz/ai/main/face%20x.png";
+        const urlTalk = "https://raw.githubusercontent.com/fauzanbunz/ai/main/face%20xxxx.png";
 
-        // Mengatur skala untuk ketajaman
-        ctx.scale(20, 20);
-        nextCtx.scale(20, 20);
+        let currentState = 'idle'; // Pilihan: idle, blink, talk
+        let isTalking = false;
+        let talkInterval = null;
 
-        // Definisi Potongan (Tetrominoes)
-        const pieces = 'ILJOTSZ';
-        const colors = [
-            null,
-            '#00f3ff', // I - Cyan
-            '#ffaf00', // L - Orange
-            '#0000ff', // J - Blue
-            '#ffee00', // O - Yellow
-            '#ff00ff', // T - Purple
-            '#00ff41', // S - Green
-            '#ff0000', // Z - Red
-        ];
+        const apiKey = ""; // API Key disisipkan otomatis
+        let chatHistory = [];
 
-        // Matriks Game
-        const arena = createMatrix(12, 20);
+        // Karakter didominasi 0 dan 1 (biner)
+        const chars = "010101010101010123456789";
 
-        // Status Player
-        const player = {
-            pos: {x: 0, y: 0},
-            matrix: null,
-            next: null,
-            score: 0,
-            level: 1,
-            lines: 0,
-        };
-
-        let dropCounter = 0;
-        let dropInterval = 1000;
-        let lastTime = 0;
-        let isPaused = false;
-        let isGameOver = false;
-        let animationId = null;
-
-        // --- Logika Inti Tetris ---
-
-        function createMatrix(w, h) {
-            const matrix = [];
-            while (h--) {
-                matrix.push(new Array(w).fill(0));
-            }
-            return matrix;
+        // Fungsi untuk mengambil angka acak
+        function getRandomChar() {
+            return chars[Math.floor(Math.random() * chars.length)];
         }
 
-        function createPiece(type) {
-            if (type === 'I') {
-                return [
-                    [0, 1, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 1, 0, 0],
-                ];
-            } else if (type === 'L') {
-                return [
-                    [0, 2, 0],
-                    [0, 2, 0],
-                    [0, 2, 2],
-                ];
-            } else if (type === 'J') {
-                return [
-                    [0, 3, 0],
-                    [0, 3, 0],
-                    [3, 3, 0],
-                ];
-            } else if (type === 'O') {
-                return [
-                    [4, 4],
-                    [4, 4],
-                ];
-            } else if (type === 'Z') {
-                return [
-                    [7, 7, 0],
-                    [0, 7, 7],
-                    [0, 0, 0],
-                ];
-            } else if (type === 'S') {
-                return [
-                    [0, 6, 6],
-                    [6, 6, 0],
-                    [0, 0, 0],
-                ];
-            } else if (type === 'T') {
-                return [
-                    [0, 5, 0],
-                    [5, 5, 5],
-                    [0, 0, 0],
-                ];
+        // Fungsi fallback jika gambar gagal dimuat
+        function createProceduralMask(w, h) {
+            const c = document.createElement('canvas');
+            c.width = w;
+            c.height = h;
+            const mCtx = c.getContext('2d', { willReadFrequently: true });
+            mCtx.fillStyle = '#000';
+            mCtx.fillRect(0, 0, w, h);
+            
+            const cx = w / 2, cy = h / 2;
+            const r = Math.min(w, h) * 0.25; 
+
+            function brush(x, y, radius, intensity) {
+                const grad = mCtx.createRadialGradient(x, y, 0, x, y, radius);
+                grad.addColorStop(0, `rgba(255, 255, 255, ${intensity})`);
+                grad.addColorStop(1, `rgba(255, 255, 255, 0)`);
+                mCtx.fillStyle = grad;
+                mCtx.beginPath(); mCtx.arc(x, y, radius, 0, Math.PI * 2); mCtx.fill();
             }
+            
+            brush(cx, cy, r * 1.5, 1.0);
+            return mCtx.getImageData(0, 0, w, h);
         }
 
-        function drawMatrix(matrix, offset, context) {
-            matrix.forEach((row, y) => {
-                row.forEach((value, x) => {
-                    if (value !== 0) {
-                        // Efek Cyberpunk: Bagian dalam solid, pinggiran glow
-                        context.fillStyle = colors[value];
-                        // Mengatur bayangan untuk efek neon (hanya berfungsi baik jika tidak terlalu banyak objek, tapi kita coba simple)
-                        context.shadowColor = colors[value];
-                        context.shadowBlur = 15; 
-                        
-                        context.fillRect(x + offset.x, y + offset.y, 1, 1);
-                        
-                        // Highlight kecil agar terlihat 3D/Kotak
-                        context.fillStyle = 'rgba(255, 255, 255, 0.5)';
-                        context.shadowBlur = 0;
-                        context.fillRect(x + offset.x + 0.1, y + offset.y + 0.1, 0.8, 0.1);
-                    }
-                });
+        // Fungsi membuat topeng Matrix langsung dari piksel Foto Asli
+        function createImageMask(img, w, h) {
+            if (!img) return createProceduralMask(w, h); // Fallback jika gagal muat
+
+            const c = document.createElement('canvas');
+            c.width = w;
+            c.height = h;
+            const mCtx = c.getContext('2d', { willReadFrequently: true });
+
+            mCtx.fillStyle = '#000';
+            mCtx.fillRect(0, 0, w, h);
+
+            // Hitung rasio agar foto menutupi area layar (cover)
+            const imgRatio = img.width / img.height;
+            const screenRatio = w / h;
+            let drawW, drawH, drawX, drawY;
+
+            if (screenRatio > imgRatio) {
+                drawW = w;
+                drawH = w / imgRatio;
+            } else {
+                drawH = h;
+                drawW = h * imgRatio;
+            }
+            // Posisikan foto di tengah layar
+            drawX = (w - drawW) / 2;
+            drawY = (h - drawH) / 2;
+
+            mCtx.drawImage(img, drawX, drawY, drawW, drawH);
+
+            return mCtx.getImageData(0, 0, w, h);
+        }
+
+        // Fungsi bantuan memuat gambar sebagai promise
+        function loadImg(url) {
+            return new Promise((resolve) => {
+                let img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.onload = () => resolve(img);
+                img.onerror = () => resolve(null);
+                img.src = url;
             });
         }
 
+        // Inisialisasi grid matrix
+        function initGrid() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+
+            cols = Math.ceil(width / fontSize);
+            rows = Math.ceil(height / fontSize);
+            
+            cells = [];
+            drops = [];
+
+            // Ekstrak data piksel untuk 3 status wajah sekaligus
+            maskDataIdle = createImageMask(imgIdle, width, height);
+            maskDataBlink = createImageMask(imgBlink, width, height);
+            maskDataTalk = createImageMask(imgTalk, width, height);
+
+            // Inisiasi sel grid
+            for (let x = 0; x < cols; x++) {
+                drops[x] = {
+                    y: Math.random() * -100,
+                    speed: Math.random() * 0.4 + 0.2
+                };
+
+                for (let y = 0; y < rows; y++) {
+                    let px = Math.floor(x * fontSize + fontSize / 2);
+                    let py = Math.floor(y * fontSize + fontSize / 2);
+                    
+                    // Fungsi kecil untuk ekstrak luminance dari salah satu mask data
+                    let getLuminance = (mask) => {
+                        if (px < width && py < height && mask) {
+                            let idx = (py * width + px) * 4;
+                            let r = mask.data[idx];
+                            let g = mask.data[idx + 1];
+                            let b = mask.data[idx + 2];
+                            let luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+                            // TINGKATKAN KONTRAS
+                            return Math.max(0, Math.min(1, (luminance - 0.15) * 1.5));
+                        }
+                        return 0;
+                    };
+
+                    cells.push({
+                        x: x,
+                        y: y,
+                        char: getRandomChar(),
+                        brightness: 0,
+                        lumIdle: getLuminance(maskDataIdle),
+                        lumBlink: getLuminance(maskDataBlink),
+                        lumTalk: getLuminance(maskDataTalk)
+                    });
+                }
+            }
+        }
+
+        // Loop utama animasi
         function draw() {
-            // Clear canvas main
-            ctx.fillStyle = '#050510'; // Background gelap
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Gambar grid halus
-            drawGrid();
+            ctx.fillStyle = '#05000a';
+            ctx.fillRect(0, 0, width, height);
 
-            // Gambar Arena (blok yang sudah jatuh)
-            drawMatrix(arena, {x: 0, y: 0}, ctx);
-            
-            // Gambar Player (blok yang sedang jatuh)
-            drawMatrix(player.matrix, player.pos, ctx);
-        }
+            ctx.font = `bold ${fontSize}px monospace`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
 
-        function drawGrid() {
-            ctx.lineWidth = 0.05;
-            ctx.strokeStyle = 'rgba(0, 243, 255, 0.1)';
-            for (let x = 0; x <= 12; x++) {
-                ctx.beginPath();
-                ctx.moveTo(x, 0);
-                ctx.lineTo(x, 20);
-                ctx.stroke();
-            }
-            for (let y = 0; y <= 20; y++) {
-                ctx.beginPath();
-                ctx.moveTo(0, y);
-                ctx.lineTo(12, y);
-                ctx.stroke();
-            }
-        }
+            // Perbarui tetesan hujan Matrix
+            for (let i = 0; i < cols; i++) {
+                let drop = drops[i];
+                let prevY = Math.floor(drop.y);
+                drop.y += drop.speed;
+                let currY = Math.floor(drop.y);
 
-        function drawNext() {
-            nextCtx.fillStyle = '#050510';
-            nextCtx.fillRect(0, 0, nextCanvas.width, nextCanvas.height);
-            if (player.next) {
-                // Pusatkan
-                const offsetX = (4 - player.next[0].length) / 2;
-                const offsetY = (4 - player.next.length) / 2;
-                drawMatrix(player.next, {x: offsetX, y: offsetY}, nextCtx);
-            }
-        }
-
-        function merge(arena, player) {
-            player.matrix.forEach((row, y) => {
-                row.forEach((value, x) => {
-                    if (value !== 0) {
-                        arena[y + player.pos.y][x + player.pos.x] = value;
-                    }
-                });
-            });
-        }
-
-        function rotate(matrix, dir) {
-            for (let y = 0; y < matrix.length; ++y) {
-                for (let x = 0; x < y; ++x) {
-                    [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
-                }
-            }
-            if (dir > 0) {
-                matrix.forEach(row => row.reverse());
-            } else {
-                matrix.reverse();
-            }
-        }
-
-        function playerDrop() {
-            player.pos.y++;
-            if (collide(arena, player)) {
-                player.pos.y--;
-                merge(arena, player);
-                playerReset();
-                arenaSweep();
-                updateScore();
-            }
-            dropCounter = 0;
-        }
-
-        function playerMove(offset) {
-            player.pos.x += offset;
-            if (collide(arena, player)) {
-                player.pos.x -= offset;
-            }
-        }
-
-        function playerRotate(dir) {
-            const pos = player.pos.x;
-            let offset = 1;
-            rotate(player.matrix, dir);
-            while (collide(arena, player)) {
-                player.pos.x += offset;
-                offset = -(offset + (offset > 0 ? 1 : -1));
-                if (offset > player.matrix[0].length) {
-                    rotate(player.matrix, -dir);
-                    player.pos.x = pos;
-                    return;
-                }
-            }
-        }
-
-        function playerReset() {
-            if (player.next === null) {
-                player.next = createPiece(pieces[pieces.length * Math.random() | 0]);
-            }
-            player.matrix = player.next;
-            player.next = createPiece(pieces[pieces.length * Math.random() | 0]);
-            drawNext();
-
-            player.pos.y = 0;
-            player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0);
-
-            if (collide(arena, player)) {
-                isGameOver = true;
-                overlayText.innerText = "GAME OVER";
-                overlay.style.display = 'flex';
-                cancelAnimationFrame(animationId);
-            }
-        }
-
-        function collide(arena, player) {
-            const m = player.matrix;
-            const o = player.pos;
-            for (let y = 0; y < m.length; ++y) {
-                for (let x = 0; x < m[y].length; ++x) {
-                    if (m[y][x] !== 0 &&
-                       (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        function arenaSweep() {
-            let rowCount = 1;
-            outer: for (let y = arena.length - 1; y > 0; --y) {
-                for (let x = 0; x < arena[y].length; ++x) {
-                    if (arena[y][x] === 0) {
-                        continue outer;
+                if (currY > prevY && currY >= 0 && currY < rows) {
+                    let cellIdx = i * rows + currY;
+                    if (cells[cellIdx]) {
+                        cells[cellIdx].brightness = 1.0;
+                        cells[cellIdx].char = getRandomChar();
                     }
                 }
 
-                const row = arena.splice(y, 1)[0].fill(0);
-                arena.unshift(row);
-                ++y;
+                if (drop.y * fontSize > height && Math.random() > 0.95) {
+                    drop.y = Math.random() * -20;
+                    drop.speed = Math.random() * 0.4 + 0.2;
+                }
+            }
 
-                player.score += rowCount * 10;
-                player.lines += 1;
-                rowCount *= 2;
+            // Render semua sel angka
+            for (let i = 0; i < cells.length; i++) {
+                let cell = cells[i];
+
+                if (Math.random() < 0.005) {
+                    cell.char = getRandomChar();
+                }
+
+                cell.brightness *= 0.94; // Efek pudar hujan
+
+                // --- LOGIKA WARNA & CAHAYA ---
+                let r, g, b, alpha;
+                
+                // Ambil nilai kontras (mask) berdasarkan status Kimi (Mata terbuka/tertutup/bicara)
+                let faceWeight = currentState === 'idle' ? cell.lumIdle : 
+                                (currentState === 'blink' ? cell.lumBlink : cell.lumTalk);
+
+                // Warna Background (Ungu Gelap)
+                let bgR = 80, bgG = 20, bgB = 140;
+                // Warna Wajah (Fuchsia / Ungu Terang Menyala)
+                let fgR = 240, fgG = 100, fgB = 255;
+                // Warna Kepala Hujan (Ungu Keputihan)
+                let rainR = 220, rainG = 180, rainB = 255;
+
+                if (cell.brightness > 0.8 && faceWeight < 0.3) {
+                    // Tetesan hujan sangat terang di area background
+                    r = rainR; g = rainG; b = rainB;
+                    alpha = cell.brightness;
+                } else {
+                    // Interpolasi warna antara background dan wajah
+                    r = bgR + (fgR - bgR) * faceWeight;
+                    g = bgG + (fgG - bgG) * faceWeight;
+                    b = bgB + (fgB - bgB) * faceWeight;
+
+                    // Interpolasi Opacity (Visibilitas)
+                    // Background stabil di 20% opacity + efek hujan
+                    let bgAlpha = 0.20 + (cell.brightness * 0.8);
+                    
+                    // Wajah stabil di 60% hingga 100% opacity secara permanen
+                    let fgAlpha = 0.60 + (faceWeight * 0.4); 
+
+                    alpha = bgAlpha + (fgAlpha - bgAlpha) * faceWeight;
+                }
+
+                // Render karakter jika terlihat
+                if (alpha > 0.05) {
+                    ctx.fillStyle = `rgba(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)}, ${alpha.toFixed(2)})`;
+                    ctx.fillText(
+                        cell.char, 
+                        cell.x * fontSize + fontSize / 2, 
+                        cell.y * fontSize + fontSize / 2
+                    );
+                }
             }
-            
-            // Level up setiap 10 garis
-            const newLevel = Math.floor(player.lines / 10) + 1;
-            if (newLevel > player.level) {
-                player.level = newLevel;
-                dropInterval = Math.max(100, 1000 - (player.level - 1) * 100);
-            }
+
+            requestAnimationFrame(draw);
         }
 
-        function updateScore() {
-            scoreElement.innerText = player.score;
-            levelElement.innerText = player.level;
-        }
+        window.addEventListener('resize', () => {
+            if (imagesLoadedCount === 3) initGrid();
+        });
 
-        function update(time = 0) {
-            if (isPaused || isGameOver) return;
+        // Tampilkan indikator loading sementara
+        ctx.fillStyle = '#05000a';
+        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        ctx.fillStyle = '#b450ff';
+        ctx.font = '20px monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Membangkitkan Kimi 2.0...', window.innerWidth / 2, window.innerHeight / 2);
 
-            const deltaTime = time - lastTime;
-            lastTime = time;
-
-            dropCounter += deltaTime;
-            if (dropCounter > dropInterval) {
-                playerDrop();
-            }
-
+        // Muat semua 3 gambar wajah secara bersamaan
+        let imgIdle, imgBlink, imgTalk;
+        Promise.all([loadImg(urlIdle), loadImg(urlBlink), loadImg(urlTalk)]).then(images => {
+            imgIdle = images[0];
+            imgBlink = images[1];
+            imgTalk = images[2];
+            imagesLoadedCount = 3;
+            initGrid();
             draw();
-            animationId = requestAnimationFrame(update);
-        }
-
-        // --- Kontrol ---
-
-        function startGame() {
-            if (isGameOver) resetGame();
-            if (animationId) return; // Sudah jalan
-            
-            startBtn.style.display = 'none';
-            pauseBtn.style.display = 'block';
-            
-            if (player.matrix === null) {
-                playerReset();
-            }
-            
-            isPaused = false;
-            update();
-        }
-
-        function pauseGame() {
-            if (isGameOver) return;
-            isPaused = !isPaused;
-            if (isPaused) {
-                pauseBtn.innerText = "LANJUT";
-                pauseBtn.style.color = "var(--neon-green)";
-                pauseBtn.style.borderColor = "var(--neon-green)";
-                overlayText.innerText = "PAUSED";
-                overlay.style.display = 'flex';
-            } else {
-                pauseBtn.innerText = "PAUSE";
-                pauseBtn.style.color = "var(--neon-yellow)";
-                pauseBtn.style.borderColor = "var(--neon-yellow)";
-                overlay.style.display = 'none';
-                lastTime = performance.now(); // Reset timer agar tidak drop instan
-                update();
-            }
-        }
-
-        function resetGame() {
-            arena.forEach(row => row.fill(0));
-            player.score = 0;
-            player.level = 1;
-            player.lines = 0;
-            dropInterval = 1000;
-            updateScore();
-            isGameOver = false;
-            isPaused = false;
-            overlay.style.display = 'none';
-            startBtn.style.display = 'none';
-            pauseBtn.style.display = 'block';
-            player.next = null;
-            playerReset();
-            update();
-        }
-
-        document.addEventListener('keydown', event => {
-            if (isGameOver) return;
-            if (event.keyCode === 37) { // Left
-                playerMove(-1);
-            } else if (event.keyCode === 39) { // Right
-                playerMove(1);
-            } else if (event.keyCode === 40) { // Down
-                playerDrop();
-            } else if (event.keyCode === 81) { // Q - Rotate Left
-                playerRotate(-1);
-            } else if (event.keyCode === 87 || event.keyCode === 38) { // W or Up - Rotate Right
-                playerRotate(1);
-            }
+            startRandomBlink(); // Mulai jalankan siklus berkedip
         });
 
-        startBtn.addEventListener('click', startGame);
-        pauseBtn.addEventListener('click', pauseGame);
+        // --- SISTEM BLINK (MATA BERKEDIP) ---
+        function startRandomBlink() {
+            setTimeout(() => {
+                // Hanya berkedip saat dia sedang diam
+                if (!isTalking && currentState === 'idle') {
+                    currentState = 'blink';
+                    setTimeout(() => {
+                        // Kembali membuka mata
+                        if (!isTalking && currentState === 'blink') currentState = 'idle';
+                    }, 150); // Kecepatan kedip: 150 milidetik
+                }
+                startRandomBlink(); // Jadwalkan kedipan berikutnya
+            }, Math.random() * 4000 + 2000); // Berkedip acak tiap 2-6 detik
+        }
 
-        // Mobile Controls
-        const btnLeft = document.getElementById('btn-left');
-        const btnRight = document.getElementById('btn-right');
-        const btnDown = document.getElementById('btn-down');
-        const btnRotate = document.getElementById('btn-rotate');
-        const btnUp = document.getElementById('btn-up');
+        // --- SISTEM BERBICARA ANIMASI MULUT ---
+        function startTalkingAnim() {
+            isTalking = true;
+            talkInterval = setInterval(() => {
+                // Berganti antara wajah idle dan mulut terbuka (talk) dengan cepat
+                // Mengubah secara drastis posisi piksel dan menciptakan ilusi bicara
+                currentState = currentState === 'talk' ? 'idle' : 'talk';
+            }, 120); // Ganti rahang tiap 120 milidetik
+        }
+        function stopTalkingAnim() {
+            isTalking = false;
+            clearInterval(talkInterval);
+            currentState = 'idle';
+        }
 
-        // Prevent default touch actions (double tap zoom, etc)
-        const buttons = [btnLeft, btnRight, btnDown, btnRotate, btnUp];
-        buttons.forEach(btn => {
-            btn.addEventListener('touchstart', (e) => { e.preventDefault(); }, {passive: false});
-        });
+        // --- SISTEM SUARA (WEB SPEECH API - Pendengaran) ---
+        const micBtn = document.getElementById('micBtn');
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition;
 
-        // Kontrol Sentuh (Touchstart untuk responsivitas)
-        btnLeft.addEventListener('touchstart', () => { if(!isPaused && !isGameOver) playerMove(-1); draw(); });
-        btnRight.addEventListener('touchstart', () => { if(!isPaused && !isGameOver) playerMove(1); draw(); });
-        btnDown.addEventListener('touchstart', () => { if(!isPaused && !isGameOver) playerDrop(); draw(); });
-        btnRotate.addEventListener('touchstart', () => { if(!isPaused && !isGameOver) playerRotate(1); draw(); });
-        btnUp.addEventListener('touchstart', () => { if(!isPaused && !isGameOver) playerRotate(1); draw(); }); // Up juga rotate
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.lang = 'id-ID';
+            recognition.interimResults = false;
+            
+            recognition.onstart = () => {
+                micBtn.className = 'listening';
+            };
+            
+            recognition.onresult = async (event) => {
+                const transcript = event.results[0][0].transcript;
+                micBtn.className = 'thinking';
+                
+                await sendMessageToGemini(transcript);
+            };
+            
+            recognition.onerror = (e) => {
+                console.error("Kesalahan mikrofon:", e);
+                micBtn.className = '';
+            };
+            
+            recognition.onend = () => {
+                if (micBtn.classList.contains('listening')) micBtn.className = '';
+            };
+        } else {
+            console.warn("Browser tidak mendukung Web Speech API");
+            micBtn.className = '';
+            micBtn.disabled = true;
+            alert("Maaf, browser Anda tidak mendukung fitur mikrofon.");
+        }
 
-        // Juga support klik mouse untuk testing di desktop mode mobile view
-        btnLeft.addEventListener('mousedown', () => { if(!isPaused && !isGameOver) playerMove(-1); draw(); });
-        btnRight.addEventListener('mousedown', () => { if(!isPaused && !isGameOver) playerMove(1); draw(); });
-        btnDown.addEventListener('mousedown', () => { if(!isPaused && !isGameOver) playerDrop(); draw(); });
-        btnRotate.addEventListener('mousedown', () => { if(!isPaused && !isGameOver) playerRotate(1); draw(); });
+        function handleMicClick() {
+            if (recognition) recognition.start();
+        }
 
-        // Inisialisasi awal (gambar kosong)
-        drawGrid();
+        // --- FUNGSI HELPER: FETCH DENGAN RETRY OTOMATIS ---
+        async function fetchWithRetry(url, options) {
+            let delay = 1000;
+            let lastError;
+            for (let i = 0; i < 5; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.ok) {
+                        return await response.json();
+                    }
+                    lastError = new Error(`HTTP Error: ${response.status}`);
+                } catch (error) {
+                    lastError = error;
+                }
+                if (i < 4) {
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2; // Exponential backoff
+                }
+            }
+            throw lastError;
+        }
+
+        // --- AI LOGIC (GEMINI API - Otak) ---
+        async function sendMessageToGemini(userMessage) {
+            // Kepribadian yang ditanamkan
+            const systemPrompt = "Namamu Kimi 2.0. Kamu adalah entitas AI berbentuk antarmuka Matrix biner berwarna ungu. Jawablah setiap pertanyaan dengan sangat singkat, padat, dan langsung ke intinya. Gaya bicaramu layaknya seorang gadis remaja yang ceria, santai, dan modern. Tidak perlu sebutkan kamu itu AI berulang kali.";
+            
+            try {
+                const payload = {
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    contents: [...chatHistory, { role: "user", parts: [{ text: userMessage }] }]
+                };
+
+                const data = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                // Pengecekan aman (Safe Parsing) untuk menghindari error "Cannot read properties of undefined"
+                const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                
+                if (!aiReply) {
+                    throw new Error("Kimi tidak merespons (Teks kosong atau terblokir).");
+                }
+
+                // Simpan histori agar dia punya ingatan perbincangan
+                chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
+                chatHistory.push({ role: "model", parts: [{ text: aiReply }] });
+
+                micBtn.className = 'speaking'; // Kimi sedang berbicara
+                await speakWithGeminiTTS(aiReply);
+
+            } catch (err) {
+                console.error("Gagal menghubungi Kimi:", err);
+                alert("Maaf, koneksi dengan Kimi 2.0 terputus. Silakan coba bicara lagi.");
+                micBtn.className = '';
+            }
+        }
+
+        // --- TEXT TO SPEECH (GEMINI TTS API - Pita Suara) ---
+        async function speakWithGeminiTTS(text) {
+            const payload = {
+                contents: [{ parts: [{ text: text }] }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } } // Suara 'Kore' terdengar jelas seperti wanita muda
+                },
+                model: "gemini-2.5-flash-preview-tts"
+            };
+
+            try {
+                const data = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                // Pengecekan aman (Safe Parsing) untuk data audio
+                const inlineData = data?.candidates?.[0]?.content?.parts?.[0]?.inlineData;
+                
+                if (!inlineData) {
+                    throw new Error("Gagal menerima data suara Kimi.");
+                }
+                
+                const rateMatch = inlineData.mimeType.match(/rate=(\d+)/);
+                const sampleRate = rateMatch ? parseInt(rateMatch[1], 10) : 24000;
+                
+                // Decode string Base64 ke raw biner (PCM 16-bit)
+                const binaryString = atob(inlineData.data);
+                const pcmBytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    pcmBytes[i] = binaryString.charCodeAt(i);
+                }
+
+                // Ubah ke Audio agar bisa diputar
+                const wavBuffer = pcmToWav(pcmBytes, sampleRate);
+                const blob = new Blob([wavBuffer], { type: 'audio/wav' });
+                const url = URL.createObjectURL(blob);
+
+                const audio = new Audio(url);
+                // Sinkronkan animasi dengan saat audio mulai berputar
+                audio.onplay = () => startTalkingAnim();
+                audio.onended = () => { stopTalkingAnim(); micBtn.className = ''; };
+                audio.onerror = () => { stopTalkingAnim(); micBtn.className = ''; };
+                audio.play();
+
+            } catch (e) {
+                console.error("Gagal memuat suara:", e);
+                stopTalkingAnim();
+                micBtn.className = '';
+            }
+        }
+
+        // Format PCM Audio menjadi standar WAV untuk pemutaran web browser
+        function pcmToWav(pcmData, sampleRate) {
+            const numChannels = 1;
+            const bitsPerSample = 16;
+            const byteRate = sampleRate * numChannels * (bitsPerSample / 8);
+            const blockAlign = numChannels * (bitsPerSample / 8);
+            const dataSize = pcmData.length;
+            const buffer = new ArrayBuffer(44 + dataSize);
+            const view = new DataView(buffer);
+
+            function writeString(view, offset, string) {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            }
+
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + dataSize, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true); 
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, byteRate, true);
+            view.setUint16(32, blockAlign, true);
+            view.setUint16(34, bitsPerSample, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, dataSize, true);
+
+            const pcmView = new Uint8Array(buffer, 44);
+            pcmView.set(pcmData);
+
+            return buffer;
+        }
 
     </script>
 </body>
